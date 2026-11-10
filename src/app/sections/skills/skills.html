@@ -1,0 +1,33 @@
+<section id="skills" class="border-t border-line">
+  <div class="mx-auto grid max-w-6xl gap-14 px-5 py-20 lg:grid-cols-2">
+    <div>
+      <h2 class="font-display text-3xl font-bold">Skills</h2>
+      <dl class="mt-8 space-y-6">
+        @for (group of skills; track group.title) {
+          <div>
+            <dt class="text-sm text-muted">{{ group.title }}</dt>
+            <dd class="mt-1.5 text-lg">{{ group.items }}</dd>
+          </div>
+        }
+      </dl>
+    </div>
+    <div>
+      <h2 class="font-display text-3xl font-bold">Recognition</h2>
+      <ul class="mt-8 divide-y divide-line border-y border-line">
+        @for (award of awards; track award.title) {
+          <li class="py-4">
+            <div class="flex items-baseline justify-between gap-4">
+              <span class="text-lg">{{ award.title }}</span>
+              <span class="shrink-0 text-sm text-muted">{{ award.date }}</span>
+            </div>
+            <p class="mt-1 text-sm text-muted">{{ award.reason }}</p>
+          </li>
+        }
+      </ul>
+      <h3 class="mt-10 font-display text-lg font-semibold">Education</h3>
+      @for (line of education; track line) {
+        <p class="mt-2 text-muted">{{ line }}</p>
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+/* Theme tokens: dark by default, light via [data-theme="light"] on <html> */
+:root {
+  color-scheme: dark;
+  --bg: #0D1321; --surface: #151D30; --line: #24304A; --text: #E7EAF3; --muted: #8D97B0;
+  --accent: #FF5C7A; --cyan: #6CD3E6; --amber: #F4C26B; --violet: #B89CFF;
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #F5F7FB; --surface: #FFFFFF; --line: #DCE2EE; --text: #18203A; --muted: #5A6480;
+  --accent: #D6325A; --cyan: #0E7C93; --amber: #9A5F00; --violet: #6B4BD1;
+}
+
+/* Expose tokens as Tailwind utilities: bg-bg, bg-surface, border-line, text-ink, text-muted, text-accent... */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-line: var(--line);
+  --color-ink: var(--text);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-cyan: var(--cyan);
+  --color-amber: var(--amber);
+  --color-violet: var(--violet);
+  --font-display: "Sora", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, sans-serif;
+  --font-code: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+
+html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+body { @apply bg-bg text-ink font-body antialiased; }
+a:focus-visible, button:focus-visible { @apply outline-2 outline-offset-4 outline-accent rounded-md; }
+
+/* The few effects that are too fiddly for utility classes */
+.grid-bg {
+  background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at 70% 30%, #000 10%, transparent 70%);
+  opacity: .45;
+}
+.caret::after {
+  content: ""; display: inline-block; width: .55em; height: 1.1em; margin-left: 2px;
+  vertical-align: -0.2em; background: var(--accent); animation: blink 1s steps(1) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+.pulse::before {
+  content: ""; position: absolute; left: 50%; top: 0; width: 2px; height: 12px; z-index: 1;
+  transform: translateX(-1px); border-radius: 2px; background: var(--accent);
+  animation: travel 1.8s linear infinite;
+}
+@keyframes travel { from { top: 0; } to { top: calc(100% - 12px); } }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .caret::after, .pulse::before { animation: none; }
+}

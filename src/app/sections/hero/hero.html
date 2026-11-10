@@ -1,0 +1,32 @@
+<section id="top" class="relative overflow-hidden">
+  <div class="grid-bg pointer-events-none absolute inset-0"></div>
+  <div class="relative mx-auto grid max-w-6xl items-center gap-12 px-5 py-20 md:py-28 lg:grid-cols-[1fr_1.05fr]">
+    <div>
+      <p class="mb-5 text-muted">{{ profile.greeting }}</p>
+      <h1 class="font-display text-4xl leading-[1.1] font-bold tracking-tight sm:text-5xl lg:text-[3.3rem]">
+        {{ profile.headline }}
+      </h1>
+      <p class="mt-6 max-w-xl text-lg leading-relaxed text-muted">{{ profile.intro }}</p>
+      <div class="mt-9 flex flex-wrap gap-3">
+        <a href="#wordnest" class="rounded-lg bg-accent px-5 py-3 font-semibold text-white hover:opacity-90">See the AI project</a>
+        <a href="https://wordnest-f2mv.onrender.com" target="_blank" rel="noopener"
+           class="rounded-lg border border-line px-5 py-3 font-semibold hover:border-muted">Try WordNest live ↗</a>
+        <a [href]="profile.resume" download
+           class="rounded-lg border border-line px-5 py-3 font-semibold hover:border-muted">Download resume</a>
+      </div>
+    </div>
+
+    <div class="overflow-hidden rounded-xl border border-line bg-surface shadow-2xl shadow-black/30">
+      <div class="flex items-center gap-2 border-b border-line px-4 py-3">
+        <span class="h-3 w-3 rounded-full bg-[#FF5F57]"></span>
+        <span class="h-3 w-3 rounded-full bg-[#FEBC2E]"></span>
+        <span class="h-3 w-3 rounded-full bg-[#28C840]"></span>
+        <span class="ml-3 font-code text-xs text-muted">shashidhara.ts</span>
+      </div>
+      <div class="overflow-x-auto">
+        <pre class="caret min-h-[22rem] p-5 font-code text-[13px] leading-7 sm:text-sm"
+             aria-label="A TypeScript class describing Shashidhara">@for (line of lines.slice(0, visible()); track $index) {<div>@for (token of line; track $index) {<span [class]="tokenClass[token[0]]">{{ token[1] }}</span>}</div>}</pre>
+      </div>
+    </div>
+  </div>
+</section>

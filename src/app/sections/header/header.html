@@ -1,0 +1,19 @@
+<header class="sticky top-0 z-50 border-b border-line bg-bg/85 backdrop-blur">
+  <nav class="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
+    <a href="#top" class="font-code text-sm">
+      <span class="text-accent">&lt;</span>shashidhara<span class="text-accent"> /&gt;</span>
+    </a>
+    <div class="hidden items-center gap-7 text-sm text-muted md:flex">
+      @for (item of nav; track item.href) {
+        <a [href]="item.href" class="hover:text-ink">{{ item.label }}</a>
+      }
+    </div>
+    <button
+      type="button"
+      (click)="themeService.toggle()"
+      class="cursor-pointer rounded-md border border-line px-3 py-1.5 text-sm text-muted hover:text-ink"
+      aria-label="Switch color theme">
+      {{ themeService.theme() === 'dark' ? 'Light mode' : 'Dark mode' }}
+    </button>
+  </nav>
+</header>
