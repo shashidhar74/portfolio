@@ -1,21 +1,66 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Shashidhara S | Full Stack Angular Developer</title>
+  <title>Shashidhara S | Full Stack Angular Developer — Angular, Node.js, NestJS</title>
   <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Full Stack Angular Developer in Bengaluru with 3+ years in Angular, Signals, Node.js, NestJS and GraphQL. Builder of WordNest, a full-stack blog with a self-trained AI assistant.">
-  <!-- Preview card when the link is shared on LinkedIn or WhatsApp -->
-  <meta property="og:title" content="Shashidhara S | Full Stack Angular Developer">
-  <meta property="og:description" content="Angular, Node.js, NestJS and GraphQL for enterprise apps, plus an AI-powered personal project.">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Shashidhara S — Full Stack Angular Developer in Bengaluru with 3+ years building enterprise banking and approval-workflow applications in Angular 21, Signals, Node.js, NestJS and GraphQL. Creator of WordNest, a full-stack blog with an AI assistant.">
+  <meta name="author" content="Shashidhara S">
+  <meta name="keywords" content="Angular Developer, Senior Angular Developer, Full Stack Angular, Node.js, NestJS, GraphQL, TypeScript, Signals, RxJS, Bengaluru">
+  <meta name="theme-color" content="#F6F7FB" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#080C15" media="(prefers-color-scheme: dark)">
+  <link rel="canonical" href="https://shashidhar74.github.io/portfolio/">
+
+  <!-- Preview card when the link is shared on LinkedIn, WhatsApp, Slack, X -->
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://shashidhar74.github.io/portfolio/">
+  <meta property="og:title" content="Shashidhara S | Full Stack Angular Developer">
+  <meta property="og:description" content="3+ years building enterprise banking and approval-workflow apps with Angular, Node.js, NestJS and GraphQL — plus WordNest, an AI-powered personal project.">
+  <meta property="og:image" content="https://shashidhar74.github.io/portfolio/images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="apple-touch-icon" href="images/profile-400.webp">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Apply the saved (or OS) theme before first paint to avoid a flash -->
+  <script>
+    (function () {
+      var t;
+      try { t = localStorage.getItem('theme'); } catch (e) {}
+      if (t !== 'light' && t !== 'dark') t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Shashidhara S",
+    "jobTitle": "Full Stack Angular Developer",
+    "worksFor": { "@type": "Organization", "name": "Muraai Information Technology Pvt. Ltd." },
+    "address": { "@type": "PostalAddress", "addressLocality": "Bengaluru", "addressCountry": "IN" },
+    "url": "https://shashidhar74.github.io/portfolio/",
+    "image": "https://shashidhar74.github.io/portfolio/images/profile-800.jpg",
+    "sameAs": ["https://www.linkedin.com/in/shashidhara709", "https://github.com/shashidhar74"],
+    "knowsAbout": ["Angular", "TypeScript", "Angular Signals", "RxJS", "Node.js", "NestJS", "GraphQL", "Prisma", "PostgreSQL"]
+  }
+  </script>
 </head>
 <body>
   <app-root></app-root>
+  <noscript>
+    <p style="padding:2rem;font-family:system-ui">Shashidhara S — Full Stack Angular Developer, Bengaluru.
+      Email: <a href="mailto:sshashidhar709@gmail.com">sshashidhar709@gmail.com</a> ·
+      <a href="https://www.linkedin.com/in/shashidhara709">LinkedIn</a> ·
+      <a href="https://github.com/shashidhar74">GitHub</a></p>
+  </noscript>
 </body>
 </html>

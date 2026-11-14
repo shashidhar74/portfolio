@@ -1,56 +1,160 @@
 @import "tailwindcss";
 
-/* Theme tokens: dark by default, light via [data-theme="light"] on <html> */
+/* `dark:` utilities follow the site toggle, not only the OS setting */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ---------------------------------------------------------------
+   Design tokens. Light is the base; dark comes from [data-theme="dark"]
+   on <html> (set before first paint by the inline script in index.html).
+   --------------------------------------------------------------- */
 :root {
-  color-scheme: dark;
-  --bg: #0D1321; --surface: #151D30; --line: #24304A; --text: #E7EAF3; --muted: #8D97B0;
-  --accent: #FF5C7A; --cyan: #6CD3E6; --amber: #F4C26B; --violet: #B89CFF;
-}
-:root[data-theme="light"] {
   color-scheme: light;
-  --bg: #F5F7FB; --surface: #FFFFFF; --line: #DCE2EE; --text: #18203A; --muted: #5A6480;
-  --accent: #D6325A; --cyan: #0E7C93; --amber: #9A5F00; --violet: #6B4BD1;
+  --bg: #F6F7FB;
+  --bg-soft: #EDF0F7;
+  --surface: #FFFFFF;
+  --raised: #F9FAFD;
+  --line: #E2E6EF;
+  --line-strong: #CBD2E0;
+  --text: #0D1324;
+  --muted: #5A6377;
+  --faint: #8A93A6;
+  --accent: #4F46E5;
+  --accent-ink: #FFFFFF;
+  --accent-2: #0D9488;
+  --warm: #B45309;
+  --glow: rgba(79, 70, 229, 0.16);
+  --glow-2: rgba(13, 148, 136, 0.12);
+  --shadow: 0 1px 2px rgba(13, 19, 36, .04), 0 12px 32px -12px rgba(13, 19, 36, .14);
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #080C15;
+  --bg-soft: #0D1320;
+  --surface: #101725;
+  --raised: #141C2C;
+  --line: #1F293B;
+  --line-strong: #2C3850;
+  --text: #E8ECF5;
+  --muted: #95A0B6;
+  --faint: #677189;
+  --accent: #8E8CFF;
+  --accent-ink: #0B0F1A;
+  --accent-2: #34D3BE;
+  --warm: #F2B66B;
+  --glow: rgba(142, 140, 255, 0.16);
+  --glow-2: rgba(52, 211, 190, 0.10);
+  --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 18px 40px -16px rgba(0, 0, 0, .6);
 }
 
-/* Expose tokens as Tailwind utilities: bg-bg, bg-surface, border-line, text-ink, text-muted, text-accent... */
+/* Tokens as Tailwind utilities: bg-bg, bg-surface, border-line, text-ink, text-muted, text-accent ... */
 @theme inline {
   --color-bg: var(--bg);
+  --color-bg-soft: var(--bg-soft);
   --color-surface: var(--surface);
+  --color-raised: var(--raised);
   --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
   --color-ink: var(--text);
   --color-muted: var(--muted);
+  --color-faint: var(--faint);
   --color-accent: var(--accent);
-  --color-cyan: var(--cyan);
-  --color-amber: var(--amber);
-  --color-violet: var(--violet);
-  --font-display: "Sora", system-ui, sans-serif;
-  --font-body: "IBM Plex Sans", system-ui, sans-serif;
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-2: var(--accent-2);
+  --color-warm: var(--warm);
+  --font-display: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
   --font-code: "JetBrains Mono", ui-monospace, Menlo, monospace;
 }
 
-html { scroll-behavior: smooth; scroll-padding-top: 72px; }
-body { @apply bg-bg text-ink font-body antialiased; }
-a:focus-visible, button:focus-visible { @apply outline-2 outline-offset-4 outline-accent rounded-md; }
+html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+body {
+  @apply bg-bg text-ink font-body antialiased;
+  font-feature-settings: "cv11", "ss01";
+  text-rendering: optimizeLegibility;
+}
+::selection { background: var(--glow); }
 
-/* The few effects that are too fiddly for utility classes */
-.grid-bg {
-  background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: radial-gradient(ellipse at 70% 30%, #000 10%, transparent 70%);
-  opacity: .45;
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 8px;
 }
-.caret::after {
-  content: ""; display: inline-block; width: .55em; height: 1.1em; margin-left: 2px;
-  vertical-align: -0.2em; background: var(--accent); animation: blink 1s steps(1) infinite;
+
+/* ---------- Reusable building blocks ---------- */
+.container-x { @apply mx-auto w-full max-w-6xl px-5 sm:px-8; }
+.section { @apply py-20 sm:py-24 lg:py-28; }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 1.25rem;
+  box-shadow: var(--shadow);
 }
-@keyframes blink { 50% { opacity: 0; } }
-.pulse::before {
-  content: ""; position: absolute; left: 50%; top: 0; width: 2px; height: 12px; z-index: 1;
-  transform: translateX(-1px); border-radius: 2px; background: var(--accent);
-  animation: travel 1.8s linear infinite;
+.glass {
+  background: color-mix(in oklab, var(--surface) 72%, transparent);
+  border: 1px solid color-mix(in oklab, var(--line) 85%, transparent);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
 }
-@keyframes travel { from { top: 0; } to { top: calc(100% - 12px); } }
+
+.btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-[15px] font-semibold
+         transition-[transform,background-color,border-color,color,box-shadow] duration-200;
+}
+.btn-primary { background: var(--accent); color: var(--accent-ink); box-shadow: 0 8px 24px -10px var(--accent); }
+.btn-primary:hover { transform: translateY(-1px); filter: brightness(1.06); }
+.btn-ghost { border: 1px solid var(--line-strong); background: var(--surface); color: var(--text); }
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+.btn-sm { @apply px-3.5 py-2 text-sm rounded-lg; }
+
+.chip {
+  @apply inline-flex items-center gap-1.5 rounded-full border border-line bg-raised px-2.5 py-1 text-[12.5px] font-medium text-muted;
+}
+.eyebrow { @apply font-code text-xs font-medium uppercase tracking-[0.18em] text-accent; }
+.text-gradient {
+  background: linear-gradient(100deg, var(--accent) 10%, var(--accent-2) 90%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.link { @apply underline decoration-line-strong underline-offset-4 transition-colors hover:text-accent hover:decoration-accent; }
+
+/* Tech logo rendered as a mask so it follows the current text colour in both themes */
+.tech-logo {
+  display: inline-block; width: 1em; height: 1em; flex: none;
+  background-color: currentColor;
+  -webkit-mask: var(--icon) center / contain no-repeat;
+  mask: var(--icon) center / contain no-repeat;
+}
+
+/* Background decoration used by the hero */
+.hero-bg {
+  background:
+    radial-gradient(600px 380px at 82% 18%, var(--glow), transparent 70%),
+    radial-gradient(520px 320px at 8% 85%, var(--glow-2), transparent 70%);
+}
+.dot-grid {
+  background-image: radial-gradient(var(--line-strong) 1px, transparent 1px);
+  background-size: 22px 22px;
+  mask-image: radial-gradient(ellipse at 70% 40%, #000 15%, transparent 65%);
+  -webkit-mask-image: radial-gradient(ellipse at 70% 40%, #000 15%, transparent 65%);
+  opacity: .55;
+}
+
+/* Scroll reveal (see RevealDirective). Content stays visible if JS never runs. */
+.reveal { opacity: 0; transform: translateY(14px); transition: opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1); }
+.reveal.is-visible { opacity: 1; transform: none; }
+
+.status-dot { position: relative; }
+.status-dot::after {
+  content: ""; position: absolute; inset: 0; border-radius: 9999px; background: inherit;
+  animation: ping 2.2s cubic-bezier(0,0,.2,1) infinite;
+}
+@keyframes ping { 75%, 100% { transform: scale(2.2); opacity: 0; } }
+
+.flow-line { background: linear-gradient(90deg, transparent, var(--line-strong), transparent); }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .caret::after, .pulse::before { animation: none; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .status-dot::after { animation: none; }
+  .btn-primary:hover { transform: none; }
 }

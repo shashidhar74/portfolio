@@ -1,32 +1,110 @@
-<section id="top" class="relative overflow-hidden">
-  <div class="grid-bg pointer-events-none absolute inset-0"></div>
-  <div class="relative mx-auto grid max-w-6xl items-center gap-12 px-5 py-20 md:py-28 lg:grid-cols-[1fr_1.05fr]">
+<section id="home" class="relative overflow-hidden pt-[68px]" aria-labelledby="hero-title">
+  <div class="hero-bg pointer-events-none absolute inset-0" aria-hidden="true"></div>
+  <div class="dot-grid pointer-events-none absolute inset-0" aria-hidden="true"></div>
+
+  <div class="container-x relative grid items-center gap-12 pt-10 pb-20 sm:pt-16 lg:min-h-[calc(100svh-68px)] lg:grid-cols-[1.22fr_0.78fr] lg:gap-16 lg:py-16">
     <div>
-      <p class="mb-5 text-muted">{{ profile.greeting }}</p>
-      <h1 class="font-display text-4xl leading-[1.1] font-bold tracking-tight sm:text-5xl lg:text-[3.3rem]">
-        {{ profile.headline }}
+      <!-- Mobile: compact avatar + availability, designed for small screens rather than a shrunk desktop frame -->
+      <div class="mb-7 flex items-center gap-4 lg:hidden">
+        <img [src]="profile.photo.src" [attr.srcset]="profile.photo.srcset" sizes="80px" width="80" height="80"
+             alt="Portrait of Shashidhara S" loading="lazy" decoding="async"
+             class="h-20 w-20 rounded-2xl object-cover ring-1 ring-line shadow-lg" />
+        <div>
+          <p class="font-display font-bold">{{ profile.name }}</p>
+          <p class="text-sm text-muted">{{ profile.title }}</p>
+        </div>
+      </div>
+
+      @if (availability.show) {
+        <p class="inline-flex items-center gap-2.5 rounded-full border border-line bg-surface/80 py-1.5 pr-3.5 pl-2.5 text-[13px] font-medium text-muted shadow-sm">
+          <span class="status-dot h-2 w-2 rounded-full bg-emerald-500" aria-hidden="true"></span>
+          {{ availability.label }}
+        </p>
+      }
+
+      <h1 id="hero-title" class="mt-6 font-display text-[2.35rem] leading-[1.08] font-extrabold tracking-[-0.025em] text-balance sm:text-5xl lg:text-[3.1rem] xl:text-[3.35rem]">
+        Building scalable enterprise applications with <span class="text-gradient">Angular</span> &amp; full&nbsp;stack technologies.
       </h1>
-      <p class="mt-6 max-w-xl text-lg leading-relaxed text-muted">{{ profile.intro }}</p>
-      <div class="mt-9 flex flex-wrap gap-3">
-        <a href="#wordnest" class="rounded-lg bg-accent px-5 py-3 font-semibold text-white hover:opacity-90">See the AI project</a>
-        <a href="https://wordnest-f2mv.onrender.com" target="_blank" rel="noopener"
-           class="rounded-lg border border-line px-5 py-3 font-semibold hover:border-muted">Try WordNest live ↗</a>
-        <a [href]="profile.resume" download
-           class="rounded-lg border border-line px-5 py-3 font-semibold hover:border-muted">Download resume</a>
+
+      <p class="mt-6 max-w-[38rem] text-[17px] leading-relaxed text-muted text-pretty sm:text-lg">{{ profile.intro }}</p>
+
+      <div class="mt-9 grid gap-3 sm:flex sm:flex-wrap">
+        <a href="#projects" (click)="go($event, 'projects')" class="btn btn-primary">
+          View my projects <app-icon name="arrow-right" [size]="18" />
+        </a>
+        <a href="#contact" (click)="go($event, 'contact')" class="btn btn-ghost">
+          <app-icon name="mail" [size]="18" /> Contact me
+        </a>
+      </div>
+
+      <div class="mt-4 grid gap-2 text-sm sm:flex sm:flex-wrap sm:items-center">
+        <span class="mt-2 mr-1 font-code text-xs tracking-wider text-faint uppercase sm:mt-0">Résumé</span>
+        @for (r of resumes; track r.title) {
+          @if (r.file) {
+            <a [href]="r.file" download class="btn btn-ghost btn-sm" [attr.aria-label]="'Download ' + r.title + ' resume (PDF)'">
+              <app-icon name="download" [size]="16" /> {{ r.title }}
+            </a>
+          } @else {
+            <span class="btn btn-ghost btn-sm cursor-not-allowed opacity-60" title="Resume coming soon">{{ r.title }} · soon</span>
+          }
+        }
+      </div>
+
+      <div class="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-line pt-6 text-sm text-muted">
+        <a [href]="profile.linkedin" target="_blank" rel="noopener" class="inline-flex items-center gap-2 hover:text-ink">
+          <app-icon name="linkedin" [size]="16" /> LinkedIn <span class="sr-only">(opens in new tab)</span>
+        </a>
+        <a [href]="profile.github" target="_blank" rel="noopener" class="inline-flex items-center gap-2 hover:text-ink">
+          <app-icon name="github" [size]="17" /> GitHub <span class="sr-only">(opens in new tab)</span>
+        </a>
+        <span class="inline-flex items-center gap-2"><app-icon name="pin" [size]="17" /> {{ profile.location }}</span>
       </div>
     </div>
 
-    <div class="overflow-hidden rounded-xl border border-line bg-surface shadow-2xl shadow-black/30">
-      <div class="flex items-center gap-2 border-b border-line px-4 py-3">
-        <span class="h-3 w-3 rounded-full bg-[#FF5F57]"></span>
-        <span class="h-3 w-3 rounded-full bg-[#FEBC2E]"></span>
-        <span class="h-3 w-3 rounded-full bg-[#28C840]"></span>
-        <span class="ml-3 font-code text-xs text-muted">shashidhara.ts</span>
+    <!-- Desktop portrait -->
+    <div class="relative mx-auto hidden w-full max-w-[400px] lg:block">
+      <div class="absolute -inset-6 rounded-[2.5rem] bg-gradient-to-br from-accent/25 via-transparent to-accent-2/20 blur-2xl" aria-hidden="true"></div>
+      <div class="relative rounded-[2rem] bg-gradient-to-br from-accent/60 via-line to-accent-2/50 p-[1.5px] shadow-2xl">
+        <div class="overflow-hidden rounded-[calc(2rem-1.5px)] bg-surface">
+          <picture>
+            <source type="image/webp" [attr.srcset]="profile.photo.srcset" sizes="400px" />
+            <img [src]="profile.photo.fallback" width="800" height="800" alt="Portrait of Shashidhara S"
+                 fetchpriority="high" decoding="async" class="aspect-[4/4.6] w-full object-cover object-[50%_30%]" />
+          </picture>
+        </div>
       </div>
-      <div class="overflow-x-auto">
-        <pre class="caret min-h-[22rem] p-5 font-code text-[13px] leading-7 sm:text-sm"
-             aria-label="A TypeScript class describing Shashidhara">@for (line of lines.slice(0, visible()); track $index) {<div>@for (token of line; track $index) {<span [class]="tokenClass[token[0]]">{{ token[1] }}</span>}</div>}</pre>
+
+      <div class="glass absolute -top-4 -right-6 flex items-center gap-3 rounded-2xl px-4 py-3 shadow-xl">
+        <span class="grid h-9 w-9 place-items-center rounded-xl bg-accent/12 text-accent"><app-icon name="layers" [size]="18" /></span>
+        <div class="leading-tight">
+          <p class="text-[13px] font-semibold">Consultant</p>
+          <p class="text-xs text-muted">{{ profile.company }}</p>
+        </div>
+      </div>
+
+      <div class="glass absolute -bottom-6 -left-8 rounded-2xl px-4 py-3 font-code text-[12.5px] leading-6 shadow-xl" aria-hidden="true">
+        <p><span class="text-accent">const</span> stack = <span class="text-accent-2">signal</span>([</p>
+        <p class="pl-4 text-warm">'Angular', 'NestJS', 'GraphQL'</p>
+        <p>]);</p>
       </div>
     </div>
+  </div>
+
+  <!-- Stack strip -->
+  <div class="relative border-y border-line bg-surface/60">
+    <ul class="container-x grid grid-cols-2 gap-x-4 gap-y-3 py-4 font-code text-[13px] text-muted sm:flex sm:flex-wrap sm:items-center sm:justify-between" aria-label="Core technologies">
+      @for (t of profile.heroStack; track t.name) {
+        <li class="group flex items-center gap-2.5">
+          <span class="grid h-8 w-8 shrink-0 place-items-center rounded-lg border border-line bg-surface text-ink transition-colors group-hover:border-accent/50 group-hover:text-accent" aria-hidden="true">
+            @if (t.logo) {
+              <span class="tech-logo text-[16px]" [style.--icon]="'url(icons/' + t.logo + '.svg)'"></span>
+            } @else {
+              <app-icon name="zap" [size]="16" />
+            }
+          </span>
+          <span class="whitespace-nowrap transition-colors group-hover:text-ink">{{ t.name }}</span>
+        </li>
+      }
+    </ul>
   </div>
 </section>

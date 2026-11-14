@@ -1,19 +1,73 @@
-<header class="sticky top-0 z-50 border-b border-line bg-bg/85 backdrop-blur">
-  <nav class="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
-    <a href="#top" class="font-code text-sm">
-      <span class="text-accent">&lt;</span>shashidhara<span class="text-accent"> /&gt;</span>
+<a href="#main"
+   class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-lg focus:bg-accent focus:px-4 focus:py-2 focus:text-accent-ink">
+  Skip to content
+</a>
+
+<header class="fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,box-shadow] duration-300"
+        [class.glass]="scrolled() || menuOpen()" [class.border-transparent]="!scrolled() && !menuOpen()"
+        [class.shadow-sm]="scrolled()" style="border-width: 0 0 1px 0">
+  <nav class="container-x flex h-[68px] items-center justify-between gap-4" aria-label="Primary">
+    <a href="#home" (click)="go($event, 'home')" class="group flex items-center gap-2.5" aria-label="Shashidhara S — back to top">
+      <span class="grid h-9 w-9 place-items-center rounded-xl bg-ink font-display text-sm font-extrabold text-bg transition-transform group-hover:-rotate-6">SS</span>
+      <span class="hidden font-display text-[15px] font-bold tracking-tight sm:block">Shashidhara<span class="text-accent">.</span></span>
     </a>
-    <div class="hidden items-center gap-7 text-sm text-muted md:flex">
-      @for (item of nav; track item.href) {
-        <a [href]="item.href" class="hover:text-ink">{{ item.label }}</a>
+
+    <!-- Desktop navigation -->
+    <ul class="hidden items-center gap-1 rounded-full border border-line bg-surface/70 p-1 text-sm lg:flex">
+      @for (item of nav; track item.id) {
+        <li>
+          <a [href]="'#' + item.id" (click)="go($event, item.id)"
+             class="relative block rounded-full px-3.5 py-1.5 font-medium transition-colors"
+             [class]="spy.active() === item.id ? 'bg-ink text-bg' : 'text-muted hover:text-ink'"
+             [attr.aria-current]="spy.active() === item.id ? 'true' : null">{{ item.label }}</a>
+        </li>
       }
+    </ul>
+
+    <div class="flex items-center gap-2">
+      <a [href]="profile.github" target="_blank" rel="noopener" aria-label="GitHub profile (opens in new tab)"
+         class="hidden h-10 w-10 place-items-center rounded-xl text-muted transition-colors hover:bg-bg-soft hover:text-ink sm:grid">
+        <app-icon name="github" [size]="19" />
+      </a>
+      <a [href]="profile.linkedin" target="_blank" rel="noopener" aria-label="LinkedIn profile (opens in new tab)"
+         class="hidden h-10 w-10 place-items-center rounded-xl text-muted transition-colors hover:bg-bg-soft hover:text-ink sm:grid">
+        <app-icon name="linkedin" [size]="17" />
+      </a>
+      <button type="button" (click)="theme.toggle()"
+              class="grid h-10 w-10 cursor-pointer place-items-center rounded-xl border border-line bg-surface text-muted transition-colors hover:text-ink"
+              [attr.aria-label]="theme.theme() === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'">
+        <app-icon [name]="theme.theme() === 'dark' ? 'sun' : 'moon'" [size]="18" />
+      </button>
+      <a href="#contact" (click)="go($event, 'contact')" class="btn btn-primary btn-sm hidden md:inline-flex">Let’s talk</a>
+      <button #menuButton type="button" (click)="toggleMenu()"
+              class="grid h-10 w-10 cursor-pointer place-items-center rounded-xl border border-line bg-surface lg:hidden"
+              [attr.aria-expanded]="menuOpen()" aria-controls="mobile-menu"
+              [attr.aria-label]="menuOpen() ? 'Close menu' : 'Open menu'">
+        <app-icon [name]="menuOpen() ? 'close' : 'menu'" [size]="20" />
+      </button>
     </div>
-    <button
-      type="button"
-      (click)="themeService.toggle()"
-      class="cursor-pointer rounded-md border border-line px-3 py-1.5 text-sm text-muted hover:text-ink"
-      aria-label="Switch color theme">
-      {{ themeService.theme() === 'dark' ? 'Light mode' : 'Dark mode' }}
-    </button>
   </nav>
+
+  <!-- Mobile navigation -->
+  @if (menuOpen()) {
+    <div id="mobile-menu" class="container-x pb-6 lg:hidden">
+      <ul class="grid gap-1 border-t border-line pt-4">
+        @for (item of nav; track item.id; let i = $index) {
+          <li>
+            <a [href]="'#' + item.id" (click)="go($event, item.id)"
+               class="flex items-center justify-between rounded-xl px-4 py-3.5 text-[17px] font-semibold transition-colors"
+               [class.bg-bg-soft]="spy.active() === item.id" [class.text-accent]="spy.active() === item.id"
+               [attr.aria-current]="spy.active() === item.id ? 'true' : null">
+              {{ item.label }}
+              <span class="font-code text-xs text-faint">0{{ i + 1 }}</span>
+            </a>
+          </li>
+        }
+      </ul>
+      <div class="mt-4 flex gap-2">
+        <a [href]="profile.github" target="_blank" rel="noopener" class="btn btn-ghost btn-sm flex-1"><app-icon name="github" [size]="16" /> GitHub</a>
+        <a [href]="profile.linkedin" target="_blank" rel="noopener" class="btn btn-ghost btn-sm flex-1"><app-icon name="linkedin" [size]="15" /> LinkedIn</a>
+      </div>
+    </div>
+  }
 </header>

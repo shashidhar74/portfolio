@@ -1,37 +1,66 @@
-<section id="experience" class="border-t border-line">
-  <div class="mx-auto max-w-6xl px-5 py-20">
-    <h2 class="font-display text-3xl font-bold">Experience</h2>
-    <p class="mt-3 max-w-2xl text-muted">Muraai Information Technology, Bengaluru. Three roles since May 2023, each one a promotion.</p>
+<section id="experience" class="section border-t border-line bg-bg-soft/60" aria-labelledby="experience-title">
+  <div class="container-x">
+    <app-section-heading eyebrow="02 · Experience" title="Where I’ve been building." headingId="experience-title"
+      lede="Enterprise approval, credit and invoice-management applications for banking and enterprise clients." />
 
-    <dl class="mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line md:grid-cols-4">
-      @for (stat of stats; track stat.label) {
-        <div class="flex flex-col-reverse bg-surface p-6">
-          <dt class="mt-1 text-sm text-muted">{{ stat.label }}</dt>
-          <dd class="font-display text-4xl font-bold" [class.text-accent]="stat.highlight">{{ stat.value }}</dd>
+    <ol class="relative mt-12 pl-8 sm:pl-12">
+      <!-- Timeline rail -->
+      <span class="absolute top-2 bottom-2 left-[7px] w-px bg-gradient-to-b from-accent via-line-strong to-transparent sm:left-[11px]" aria-hidden="true"></span>
+
+      <li class="relative" appReveal>
+        <span class="absolute top-1.5 -left-8 grid h-4 w-4 place-items-center rounded-full bg-accent ring-4 ring-bg-soft sm:-left-12 sm:h-6 sm:w-6" aria-hidden="true">
+          <span class="h-1.5 w-1.5 rounded-full bg-accent-ink sm:h-2 sm:w-2"></span>
+        </span>
+
+        <div class="card p-6 sm:p-8">
+          <div class="flex flex-wrap items-start justify-between gap-x-6 gap-y-3">
+            <div>
+              <p class="inline-flex items-center gap-2 rounded-full bg-accent/10 px-2.5 py-1 font-code text-xs font-medium text-accent">
+                <span class="status-dot h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true"></span> Current role
+              </p>
+              <h3 class="mt-3 font-display text-xl font-bold tracking-tight sm:text-2xl">{{ exp.role }}</h3>
+              <p class="mt-1 font-medium text-muted">{{ exp.company }} · {{ exp.location }}</p>
+            </div>
+            <p class="rounded-lg border border-line bg-raised px-3 py-1.5 font-code text-sm text-muted">{{ exp.period }}</p>
+          </div>
+          <p class="mt-5 max-w-3xl leading-relaxed text-muted">{{ exp.summary }}</p>
+
+          <!-- Metrics -->
+          <dl class="mt-7 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line md:grid-cols-4">
+            @for (m of exp.metrics; track m.label) {
+              <div class="flex flex-col-reverse justify-end bg-raised p-5">
+                <dt class="mt-1 text-[13px] leading-snug text-muted">{{ m.label }}</dt>
+                <dd class="font-display text-3xl font-extrabold tracking-tight sm:text-4xl">{{ m.value }}</dd>
+              </div>
+            }
+          </dl>
+
+          <!-- Grouped achievements -->
+          <div class="mt-8 grid gap-x-10 gap-y-7 md:grid-cols-2">
+            @for (g of exp.groups; track g.title) {
+              <div>
+                <h4 class="flex items-center gap-2.5 font-display font-bold">
+                  <span class="text-accent"><app-icon [name]="g.icon" [size]="18" /></span>{{ g.title }}
+                </h4>
+                <ul class="mt-3 space-y-2.5">
+                  @for (p of g.points; track p) {
+                    <li class="flex gap-3 text-[15px] leading-relaxed text-muted">
+                      <span class="mt-[0.6rem] h-1.5 w-1.5 shrink-0 rounded-full bg-line-strong" aria-hidden="true"></span>{{ p }}
+                    </li>
+                  }
+                </ul>
+              </div>
+            }
+          </div>
+
+          <div class="mt-8 flex flex-wrap items-center gap-2 border-t border-line pt-6">
+            <span class="mr-1 text-sm text-faint">Projects here:</span>
+            @for (p of exp.projects; track p) {
+              <a href="#projects" class="chip transition-colors hover:border-accent hover:text-accent">{{ p }}</a>
+            }
+          </div>
         </div>
-      }
-    </dl>
-
-    <div class="mt-14 grid gap-14 lg:grid-cols-[1fr_1.15fr]">
-      <ol class="relative border-l border-line pl-8 md:ml-4">
-        @for (role of roles; track role.title; let last = $last) {
-          <li [class.mb-10]="!last">
-            <span class="absolute -left-[7px] mt-1.5 h-3.5 w-3.5 rounded-full"
-                  [class]="role.current ? 'bg-accent ring-4 ring-bg' : 'border-2 border-line bg-bg'"></span>
-            <p class="text-sm" [class]="role.current ? 'text-accent' : 'text-muted'">{{ role.period }}</p>
-            <h3 class="mt-1 font-display text-xl font-semibold">{{ role.title }}</h3>
-            <p class="mt-2 text-muted">{{ role.summary }}</p>
-          </li>
-        }
-      </ol>
-      <div>
-        <h3 class="font-display text-xl font-semibold">What I’ve delivered</h3>
-        <ul class="mt-5 space-y-4 text-[15px] leading-relaxed">
-          @for (item of achievements; track item) {
-            <li class="flex gap-3"><span class="text-accent">▸</span><span>{{ item }}</span></li>
-          }
-        </ul>
-      </div>
-    </div>
+      </li>
+    </ol>
   </div>
 </section>

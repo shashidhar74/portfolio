@@ -1,126 +1,312 @@
-// All portfolio content lives here. Update this file to change the site text.
+// All portfolio content lives here. Edit this file to change the site text, links and assets.
+// Paths without a leading slash (e.g. 'images/x.webp') are resolved against <base href>,
+// so they keep working under the GitHub Pages sub-path /portfolio/.
 
 export interface Link { label: string; url: string; }
-export interface Role { period: string; title: string; summary: string; current?: boolean; }
-export interface Stat { value: string; label: string; highlight?: boolean; }
-export interface WorkProject {
-  name: string; period: string; summary: string; points: string[]; stack: string[]; badge?: string;
-}
-export interface SkillGroup { title: string; items: string; }
-export interface Award { title: string; date: string; reason: string; }
+export interface Metric { value: string; label: string; }
+export interface Highlight { title: string; text: string; icon: IconName; }
+export interface SkillGroup { title: string; icon: IconName; blurb: string; items: Tech[]; }
+export interface Tech { name: string; logo?: string; } // logo = file name in public/icons (without .svg)
+export interface Award { title: string; date: string; reason: string; org: string; }
+export interface Resume { title: string; focus: string; file: string | null; sizeLabel?: string; points: string[]; }
+
+export type IconName =
+  | 'github' | 'linkedin' | 'mail' | 'pin' | 'download' | 'arrow-right' | 'arrow-up-right' | 'sun' | 'moon'
+  | 'menu' | 'close' | 'layers' | 'server' | 'database' | 'flask' | 'tool' | 'sparkles' | 'shield'
+  | 'workflow' | 'users' | 'code' | 'trophy' | 'award' | 'star' | 'file' | 'copy' | 'check' | 'bank'
+  | 'grad' | 'eye' | 'plug' | 'rocket' | 'chart' | 'arrow-up' | 'zap';
 
 export const PROFILE = {
   name: 'Shashidhara S',
-  greeting: 'Hi, I’m Shashidhara',
-  headline: 'I build Angular apps for banking and enterprise, and I’m taking them all the way to AI.',
-  intro:
-    'Full Stack Angular Developer at Muraai Information Technology with 3+ years shipping enterprise approval and credit workflows in Angular 21, Signals, Node.js, NestJS and GraphQL. On my own time I built WordNest, a full-stack blog with an AI assistant powered by a model I trained myself.',
-  location: 'Bengaluru',
-  email: 'shashiblr74@gmail.com',
+  firstName: 'Shashidhara',
+  title: 'Full Stack Angular Developer',
+  company: 'Muraai Information Technology',
+  location: 'Bengaluru, India',
+  email: 'sshashidhar709@gmail.com',
   linkedin: 'https://www.linkedin.com/in/shashidhara709',
   github: 'https://github.com/shashidhar74',
-  resume: 'resume.pdf', // put your PDF in /public/resume.pdf
-  openTo: 'I’m open to Angular and Full Stack Angular + Node.js roles. Email is the fastest way to reach me.',
+  // Your photo. Replace the files in public/images to change it.
+  photo: { src: 'images/profile-400.webp', srcset: 'images/profile-400.webp 400w, images/profile-800.webp 800w', fallback: 'images/profile-800.jpg' },
+  headline: 'Building scalable enterprise applications with Angular & full stack technologies.',
+  intro:
+    'Hi, I’m Shashidhara — a Full Stack Angular Developer with 3+ years of experience building enterprise applications, banking workflows and business solutions. I specialize in Angular, TypeScript and modern frontend architecture, with hands-on backend experience using Node.js, NestJS, GraphQL and SQL. I also explore AI-powered applications through my personal project, WordNest.',
+  heroStack: [
+    { name: 'Angular 21', logo: 'angular' }, { name: 'Signals' }, { name: 'TypeScript', logo: 'typescript' },
+    { name: 'Node.js', logo: 'nodedotjs' }, { name: 'NestJS', logo: 'nestjs' }, { name: 'GraphQL', logo: 'graphql' },
+  ] as Tech[],
 };
 
-export const STATS: Stat[] = [
-  { value: '15+', label: 'Angular modules architected', highlight: true },
-  { value: '20+', label: 'REST and SOAP ERP endpoints integrated' },
-  { value: '4', label: 'enterprise client rollouts led on the front end' },
-  { value: '0', label: 'critical defects after 4+ go-lives' },
-];
+/**
+ * Availability badge in the hero. Set `show: false` to hide it, or change the label.
+ * Keep it truthful: it says you are open to roles, not that you can start immediately.
+ */
+export const AVAILABILITY = {
+  show: true,
+  label: 'Open to Angular & Full Stack roles',
+};
 
-export const ROLES: Role[] = [
-  { period: 'Apr 2026 to present', title: 'Consultant, Angular & Full Stack', summary: 'Owning features end to end on DCR and SIMS-OS at the same time.', current: true },
-  { period: 'Aug 2025 to Apr 2026', title: 'Associate Consultant', summary: 'Led front-end delivery on SIMS client rollouts and started the move to Signals.' },
-  { period: 'May 2023 to Aug 2025', title: 'Associate Software Consultant', summary: 'Built Angular screens, dashboards and approval workflows for SIMS.' },
-];
+export const NAV = [
+  { id: 'home', label: 'Home' },
+  { id: 'about', label: 'About' },
+  { id: 'experience', label: 'Experience' },
+  { id: 'projects', label: 'Projects' },
+  { id: 'skills', label: 'Skills' },
+  { id: 'achievements', label: 'Achievements' },
+  { id: 'contact', label: 'Contact' },
+] as const;
 
-export const ACHIEVEMENTS: string[] = [
-  'Designed a centralised API layer with HttpClient and interceptors that standardises auth, error handling and retry logic across 20+ backend and ERP endpoints',
-  'Led the migration from RxJS-heavy state to Angular Signals, cutting boilerplate and improving change detection in multi-step forms',
-  'Implemented role-based access across several user personas, rendering the UI from permission data supplied by the API',
-  'Refactored AG-Grid and Tailwind components to remove UI bottlenecks and speed up page loads',
-  'Mentored 2 batches of new joiners on Angular architecture, component design and API integration',
-];
+export const ABOUT = {
+  lead:
+    'I’m an Angular developer who enjoys turning complicated business processes into interfaces people can actually work with — approval chains, credit workflows, invoice pipelines and the dashboards around them.',
+  body: [
+    'For the past 3+ years at Muraai Information Technology I’ve built enterprise applications for banking and invoice management clients: multi-stage approval workflows, role-based screens, ERP integrations and the reusable Angular architecture that holds them together.',
+    'I work across the stack. Alongside the Angular front end I build NestJS and GraphQL modules with Prisma and SQL, and on my own time I built WordNest — a full-stack blog with an AI assistant powered by an intent model I trained myself.',
+  ],
+  highlights: [
+    { icon: 'layers', title: 'Enterprise Angular', text: 'Angular 21, Signals, RxJS and reusable component architecture for large, multi-module apps.' },
+    { icon: 'server', title: 'Hands-on backend', text: 'Node.js, NestJS, GraphQL and Prisma with PostgreSQL and MS SQL Server.' },
+    { icon: 'bank', title: 'Banking & workflows', text: 'Credit approval pipelines, invoice automation, RBAC and audit trails.' },
+    { icon: 'sparkles', title: 'AI-powered apps', text: 'Exploring AI features through WordNest: intent classification, Gemini and an AI chat assistant.' },
+    { icon: 'code', title: 'Maintainable code', text: 'Typed, reusable and testable code, reviewed through PR workflows.' },
+    { icon: 'users', title: 'Team player', text: 'Mentored two batches of new joiners on Angular architecture and API integration.' },
+  ] as Highlight[],
+};
 
-export const WORDNEST = {
+export const EXPERIENCE = {
+  company: 'Muraai Information Technology Pvt. Ltd.',
+  location: 'Bengaluru',
+  role: 'Consultant – Angular & Full Stack Development',
+  period: 'May 2023 – Present',
   summary:
-    'A full-stack blog where creators write posts, admins review them and readers comment, with an AI assistant that understands what you ask for. I built every layer, from the Angular UI to the model behind the assistant.',
-  links: [
-    { label: 'Live site ↗', url: 'https://wordnest-f2mv.onrender.com' },
-    { label: 'Source code', url: 'https://github.com/shashidhar74/wordnest' },
-    { label: 'API docs', url: 'https://wordnest-api-16oz.onrender.com/docs' },
-  ] as Link[],
-  aiIntro: 'Every message first goes through an intent classifier I trained myself. It decides what you’re asking for, and the assistant runs the matching action.',
+    'Building enterprise approval, credit and invoice-management applications for banking and enterprise clients, across the Angular front end and the NestJS / GraphQL back end.',
+  metrics: [
+    { value: '15+', label: 'Angular modules developed' },
+    { value: '20+', label: 'REST / SOAP & ERP endpoints integrated' },
+    { value: '4', label: 'enterprise client rollouts supported' },
+    { value: '4+', label: 'go-live deployments' },
+  ] as Metric[],
+  groups: [
+    {
+      icon: 'layers', title: 'Frontend architecture',
+      points: [
+        'Developed and contributed to 15+ Angular modules for large enterprise workflow applications.',
+        'Built reusable Angular components and Signals-based state management for multi-step forms.',
+      ],
+    },
+    {
+      icon: 'workflow', title: 'Workflows & access control',
+      points: [
+        'Developed enterprise multi-level approval workflows driven by API state transitions.',
+        'Implemented role-based access control that renders the UI from API-supplied permissions.',
+      ],
+    },
+    {
+      icon: 'plug', title: 'Integration & backend',
+      points: [
+        'Integrated 20+ REST / SOAP backend and ERP endpoints through a centralized service layer.',
+        'Worked with NestJS and GraphQL API modules for SIMS-OS.',
+      ],
+    },
+    {
+      icon: 'rocket', title: 'Quality & delivery',
+      points: [
+        'Supported four enterprise client rollouts and contributed to multiple go-live deployments.',
+        'Contributed to automated testing and GitHub Actions workflows; mentored new joiners.',
+      ],
+    },
+  ] as { icon: IconName; title: string; points: string[] }[],
+  projects: ['DCR', 'SIMS-OS', 'SIMS'],
+};
+
+/* -------------------- Personal project -------------------- */
+// Content preserved from the existing portfolio and the WordNest README.
+export const WORDNEST = {
+  name: 'WordNest',
+  tagline: 'A full-stack blog with a publishing workflow, threaded comments and an AI assistant.',
+  summary:
+    'Creators write posts, admins review them and readers comment — with an AI assistant that understands what you ask for. I built every layer, from the Angular UI to the model behind the assistant.',
+  liveUrl: 'https://wordnest-f2mv.onrender.com',
+  apiDocsUrl: 'https://wordnest-api-16oz.onrender.com/docs',
+  // The repository is private, so the GitHub button stays hidden until `repoPublic` is true.
+  repoUrl: 'https://github.com/shashidhar74/wordnest',
+  repoPublic: false,
+  hostingNote: 'Hosted on Render’s free plan — the first visit after a quiet spell can take 30–60 s to wake up.',
+  // Add a real screenshot at public/images/wordnest.webp and set this to 'images/wordnest.webp'.
+  screenshot: null as string | null,
+  stack: [
+    { name: 'Angular', logo: 'angular' }, { name: 'Tailwind CSS', logo: 'tailwindcss' },
+    { name: 'Node.js', logo: 'nodedotjs' }, { name: 'Express 5', logo: 'express' },
+    { name: 'PostgreSQL', logo: 'postgresql' }, { name: 'FastAPI', logo: 'fastapi' },
+    { name: 'scikit-learn', logo: 'scikitlearn' }, { name: 'Gemini API', logo: 'googlegemini' },
+  ] as Tech[],
+  aiIntro:
+    'Every chat message first goes through an intent classifier I trained myself. It decides what you’re asking for, and the assistant runs the matching action.',
   aiStats: [
-    { value: '87%', label: 'Test accuracy', highlight: true },
-    { value: '7', label: 'Intents' },
-    { value: '419', label: 'Labelled examples' },
-  ] as Stat[],
-  aiActions: ['Find posts', 'Summarise a post', 'Explain why a post was rejected', 'Export data as CSV'],
-  aiHow: 'I wrote and labelled the dataset, trained a TF-IDF + logistic regression model with scikit-learn, and serve it with FastAPI. The Gemini API handles the language side.',
+    { value: '87%', label: 'test accuracy' },
+    { value: '7', label: 'intents' },
+    { value: '419', label: 'labelled examples' },
+  ] as Metric[],
+  aiActions: ['Find posts', 'Summarize a post', 'Open the editor with a topic', 'Status-wise reports', 'Explain a rejection', 'Export posts as CSV'],
+  aiHow:
+    'I wrote and labelled the dataset, trained a TF-IDF + logistic regression model with scikit-learn and serve it with FastAPI. The Gemini API handles the language side: “Summarize with AI” on posts and “Write with AI”, which drafts a post from a topic, tone and keywords.',
   features: [
-    'Publishing workflow: draft, pending, then approve, reject or send back with a comment, then published',
-    'Role-based visibility enforced in SQL for guests, users, creators and admins',
-    'Threaded comments with replies, editing and soft delete',
+    { title: 'Publishing workflow', text: 'Draft → submit → pending → approve, reject or send back for clarification → published → closed.' },
+    { title: 'Roles & visibility', text: 'Users read, creators write, admins review. Visibility rules are enforced in SQL.' },
+    { title: 'Threaded comments', text: 'Comments and replies two levels deep, with edit and soft delete that keeps replies.' },
+    { title: 'Posts', text: 'Create and edit posts with an image, plus search and paging.' },
+  ],
+  contribution: [
+    'Angular front end with Signals, Tailwind CSS and the chat panel',
+    'Express 5 REST API with JWT auth, roles, validation and Swagger docs',
+    'PostgreSQL schema and raw SQL queries (Neon in production)',
+    'Python intent model + FastAPI service, deployed as 3 services on Render',
   ],
 };
 
-export const SIMS_OS: WorkProject = {
+/* -------------------- Professional projects -------------------- */
+export const SIMS_OS = {
   name: 'SIMS-OS',
-  badge: 'Open source',
-  period: 'Feb 2026 to present',
-  summary: 'Re-engineering the SIMS application, originally built on OpenText, into an open-source full-stack platform covering Admin, Invoice Processing, OCC, Emails, Tenants, Licenses and DOA.',
-  points: [
-    'Node.js and NestJS APIs in REST and GraphQL, with a controller, service and data-access structure backed by Prisma-managed SQL schemas',
-    'Replacing platform-specific SOAP/XML integrations with standard REST APIs behind a centralised Angular service layer',
-    'Role-based tabs, forms and buttons enforced from the database down to the UI, with read-write, read-only and no-access states',
-    'JWT auth guards, DTO validation, exception handling and backend unit and integration tests',
+  subtitle: 'Enterprise Invoice Management Platform',
+  period: 'Feb 2026 – Present',
+  summary:
+    'Re-engineering the SIMS application, originally built on the OpenText platform, into an open-source full-stack platform made of multiple connected enterprise applications.',
+  apps: ['Admin', 'Invoice Processing', 'OCC', 'Emails', 'Tenants', 'Licenses', 'DOA'],
+  features: [
+    { title: 'Connected applications', text: 'Multiple enterprise apps sharing one platform, auth and permission model.' },
+    { title: 'Database-driven RBAC', text: 'Tabs, forms and buttons resolved per role as read-write, read-only or no-access.' },
+    { title: 'Dynamic JSON forms', text: 'JSON-driven form definitions rendered at runtime using MNL.' },
+    { title: 'NestJS GraphQL modules', text: 'Controller / resolver, service and data-access layers with DTO validation.' },
+    { title: 'Prisma data access', text: 'Prisma-managed SQL schemas and queries behind the API.' },
+    { title: 'API contracts', text: 'Front-end / back-end contract collaboration within a shared Git CI and PR workflow.' },
   ],
-  stack: ['Angular', 'Node.js', 'NestJS', 'GraphQL', 'Prisma', 'SQL'],
+  stack: [
+    { name: 'Angular', logo: 'angular' }, { name: 'TypeScript', logo: 'typescript' }, { name: 'Node.js', logo: 'nodedotjs' },
+    { name: 'NestJS', logo: 'nestjs' }, { name: 'GraphQL', logo: 'graphql' }, { name: 'Prisma', logo: 'prisma' }, { name: 'SQL' },
+  ] as Tech[],
 };
 
-export const WORK_PROJECTS: WorkProject[] = [
-  {
-    name: 'DCR, Domestic Credit Requests',
-    period: 'Jan 2026 to present',
-    summary: 'An enterprise credit workflow application with a 4-stage approval pipeline (Initiation, Review, Decision, Implementation) on web and mobile.',
-    points: [
-      '15+ modules covering profiles, entity details, analytics and document and approval tracking',
-      'Signals-based state for multi-step forms, with Clone, Save as Version and Submit',
-      'REST and SOAP integration for stage transitions, approval routing and audit trails',
-    ],
-    stack: ['Angular 21', 'Signals', 'RxJS', 'Angular Material', 'Formly', 'AG-Grid', 'Tailwind CSS'],
-  },
-  {
-    name: 'SIMS, Supplier Invoice Management',
-    period: 'Sep 2023 to Jan 2026',
-    summary: 'An enterprise approval automation platform, rolled out to 4 clients with 20+ ERP entities integrated over REST and SOAP.',
-    points: [
-      'Master-data screens with full CRUD, so business teams can change configuration themselves',
-      'Multi-level approval workflows driven by API state transitions',
-      'Real-time Highcharts dashboards with dynamic filtering',
-    ],
-    stack: ['Angular', 'TypeScript', 'AG-Grid', 'Tailwind CSS', 'Highcharts', 'OpenText AppWorks'],
-  },
-];
+export const DCR = {
+  name: 'Domestic Credit Requests',
+  short: 'DCR',
+  domain: 'Banking · Corporate credit workflow',
+  period: 'Jan 2026 – Present',
+  summary:
+    'A multi-module Angular application for corporate credit requests, taking each request through a four-stage approval pipeline on web and mobile.',
+  stages: ['Initiation', 'Review', 'Decision', 'Implementation'],
+  features: [
+    'Four-stage credit approval workflow',
+    'Enterprise worklist and dashboard modules',
+    'Role-based actions per user persona',
+    'Server-side pagination on large data grids',
+    'Approval tracking and audit history',
+    'Comments, attachments and version management (Clone, Save as Version, Submit)',
+  ],
+  stack: [
+    { name: 'Angular 21', logo: 'angular' }, { name: 'TypeScript', logo: 'typescript' }, { name: 'Signals' },
+    { name: 'RxJS', logo: 'reactivex' }, { name: 'NgRx', logo: 'ngrx' }, { name: 'Angular Material' },
+    { name: 'Formly' }, { name: 'AG-Grid' }, { name: 'REST / SOAP' },
+  ] as Tech[],
+};
 
+export const SIMS = {
+  name: 'Supplier Invoice Management System',
+  short: 'SIMS',
+  domain: 'Enterprise · Invoice approval automation',
+  period: 'Sep 2023 – Jan 2026',
+  summary:
+    'An enterprise approval-automation platform for supplier invoices, rolled out to four enterprise clients and integrated with their ERP systems.',
+  chain: ['Invoice', 'L1 approval', 'L2 approval', 'ERP posting'],
+  features: [
+    'Invoice approval automation',
+    'Multi-level approval chains',
+    'Master-data CRUD screens for business teams',
+    'ERP integrations, including SAP',
+    'Highcharts dashboards with dynamic filtering',
+    'Four enterprise client rollouts',
+  ],
+  stack: [
+    { name: 'Angular', logo: 'angular' }, { name: 'TypeScript', logo: 'typescript' }, { name: 'AG-Grid' },
+    { name: 'Tailwind CSS', logo: 'tailwindcss' }, { name: 'Highcharts' }, { name: 'REST / SOAP' }, { name: 'SAP ERP' },
+  ] as Tech[],
+};
+
+/* -------------------- Skills -------------------- */
 export const SKILLS: SkillGroup[] = [
-  { title: 'Front end', items: 'Angular 21, Signals, RxJS, TypeScript, standalone components, reactive forms, Formly, Angular Material, AG-Grid, Highcharts, Tailwind CSS, OnPush and zoneless change detection' },
-  { title: 'Back end and APIs', items: 'Node.js, NestJS, Express, GraphQL, Prisma, TypeORM, REST and SOAP integration, Swagger, Postman' },
-  { title: 'Databases and security', items: 'PostgreSQL, MS SQL Server, JWT, OAuth 2.0, role-based access' },
-  { title: 'AI and ML', items: 'Python, scikit-learn for NLP, FastAPI, Gemini API, plus Claude and GitHub Copilot for development and PR review' },
-  { title: 'Tools and practice', items: 'Git CI pipelines, PR reviews, unit and integration testing, Agile, OpenText AppWorks, Render, Neon' },
+  {
+    title: 'Frontend', icon: 'layers', blurb: 'Where I spend most of my time.',
+    items: [
+      { name: 'Angular', logo: 'angular' }, { name: 'TypeScript', logo: 'typescript' }, { name: 'JavaScript', logo: 'javascript' },
+      { name: 'Signals' }, { name: 'RxJS', logo: 'reactivex' }, { name: 'NgRx', logo: 'ngrx' }, { name: 'Angular Material' },
+      { name: 'AG-Grid' }, { name: 'Tailwind CSS', logo: 'tailwindcss' }, { name: 'HTML5', logo: 'html5' }, { name: 'CSS3', logo: 'css3' },
+    ],
+  },
+  {
+    title: 'Backend', icon: 'server', blurb: 'APIs and services behind the UI.',
+    items: [
+      { name: 'Node.js', logo: 'nodedotjs' }, { name: 'NestJS', logo: 'nestjs' }, { name: 'GraphQL', logo: 'graphql' },
+      { name: 'Prisma ORM', logo: 'prisma' }, { name: 'REST APIs' }, { name: 'SOAP integration' },
+    ],
+  },
+  {
+    title: 'Database', icon: 'database', blurb: 'Relational data and queries.',
+    items: [{ name: 'PostgreSQL', logo: 'postgresql' }, { name: 'MS SQL Server' }, { name: 'SQL' }],
+  },
+  {
+    title: 'Testing', icon: 'flask', blurb: 'Confidence before merging.',
+    items: [{ name: 'Vitest', logo: 'vitest' }, { name: 'Angular TestBed', logo: 'angular' }, { name: 'Unit testing' }],
+  },
+  {
+    title: 'Tools', icon: 'tool', blurb: 'Day-to-day delivery.',
+    items: [
+      { name: 'Git', logo: 'git' }, { name: 'GitHub', logo: 'github' }, { name: 'GitHub Actions', logo: 'githubactions' },
+      { name: 'Postman', logo: 'postman' }, { name: 'Swagger', logo: 'swagger' }, { name: 'VS Code' },
+    ],
+  },
+  {
+    title: 'AI', icon: 'sparkles', blurb: 'At work and in WordNest.',
+    items: [
+      { name: 'Claude AI', logo: 'claude' }, { name: 'AI-assisted development' }, { name: 'Gemini API', logo: 'googlegemini' },
+      { name: 'scikit-learn', logo: 'scikitlearn' }, { name: 'FastAPI', logo: 'fastapi' },
+    ],
+  },
 ];
 
+/* -------------------- Recognition -------------------- */
 export const AWARDS: Award[] = [
-  { title: 'Employee of the Month', date: 'Oct 2025', reason: 'For flawless deliveries and innovation across several client projects at once' },
-  { title: 'Outstanding Contribution Award', date: 'Aug 2025', reason: 'For Angular work on a major client go-live with external ERP integration' },
-  { title: 'Peer-to-Peer Recognition for Innovation', date: 'May 2025', reason: 'For creative, high-impact Angular front-end solutions' },
+  { title: 'Employee of the Month', date: 'October 2025', org: 'Muraai Information Technology', reason: 'Recognized for dedication, flawless deliveries and innovation across multiple concurrent client developments.' },
+  { title: 'Outstanding Contribution Award', date: 'August 2025', org: 'Muraai Information Technology', reason: 'For excellence in Angular development during a major enterprise client go-live with external ERP integration.' },
+  { title: 'Peer-to-Peer Recognition', date: 'May 2025', org: 'Innovative Category · Muraai', reason: 'For creativity and innovation in Angular front-end development and impactful solutions.' },
 ];
 
-export const EDUCATION: string[] = [
-  'B.E., CMR Institute of Technology, Bengaluru (Aug 2018 to Aug 2022)',
-  'Java Full Stack Development certification, JSpiders',
+export const EDUCATION = [
+  { title: 'Bachelor of Engineering (B.E.)', place: 'CMR Institute of Technology, Bengaluru', period: '2018 – 2022' },
+  { title: 'Java Full Stack Development', place: 'JSpiders, Bengaluru', period: 'Certification' },
 ];
+
+/* -------------------- Resumes -------------------- */
+// Set `file` to null to show a "coming soon" placeholder instead of a broken link.
+export const RESUMES: Resume[] = [
+  {
+    title: 'Angular Developer',
+    focus: 'Frontend-focused',
+    file: 'resume/Shashidhara_S_Angular_Developer_Resume.pdf',
+    sizeLabel: 'PDF · 2 pages',
+    points: ['Angular 21, Signals, RxJS', 'Enterprise UI: Material, AG-Grid, Tailwind', 'REST / SOAP integration & RBAC'],
+  },
+  {
+    title: 'Full Stack Angular + Node.js',
+    focus: 'Full stack',
+    file: 'resume/Shashidhara_S_Full_Stack_Angular_NodeJS_Resume.pdf',
+    sizeLabel: 'PDF · 2 pages',
+    points: ['Angular front end + NestJS back end', 'Prisma, PostgreSQL, MS SQL Server', 'JWT, OAuth 2.0 & secure APIs'],
+  },
+];
+
+/* -------------------- Contact -------------------- */
+export const CONTACT = {
+  heading: 'Let’s build something reliable together.',
+  message:
+    'Recruiters and engineering teams looking for an Angular or Full Stack Angular + Node.js developer — I’d be glad to talk. Email is the fastest way to reach me.',
+  // 'mailto' opens a pre-filled email in the visitor's mail app. There is no server-side sending.
+  formMode: 'mailto' as 'mailto' | 'none',
+};

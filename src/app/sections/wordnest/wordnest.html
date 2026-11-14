@@ -1,72 +1,134 @@
-<section id="wordnest" class="border-t border-line">
-  <div class="mx-auto max-w-6xl px-5 py-20">
-    <div class="flex flex-wrap items-center gap-3">
-      <h2 class="font-display text-3xl font-bold">WordNest</h2>
-      <span class="rounded-full border border-accent/50 px-3 py-0.5 text-xs text-accent">Personal project, live</span>
-    </div>
-    <p class="mt-3 max-w-2xl text-lg leading-relaxed text-muted">{{ wn.summary }}</p>
-    <div class="mt-6 flex flex-wrap gap-3">
-      @for (link of wn.links; track link.url; let first = $first) {
-        <a [href]="link.url" target="_blank" rel="noopener"
-           class="rounded-lg px-4 py-2 text-sm font-semibold"
-           [class]="first ? 'bg-accent text-white hover:opacity-90' : 'border border-line hover:border-muted'">{{ link.label }}</a>
-      }
-    </div>
+<article id="wordnest" appReveal class="card relative overflow-hidden" aria-labelledby="wordnest-title">
+  <div class="pointer-events-none absolute -top-40 -right-40 h-96 w-96 rounded-full bg-accent-2/10 blur-3xl" aria-hidden="true"></div>
 
-    <div class="mt-12 grid gap-8 lg:grid-cols-[1fr_1.1fr]">
-      <!-- AI assistant -->
-      <div class="rounded-2xl border border-line bg-surface p-7 md:p-9">
-        <h3 class="font-display text-2xl font-bold">The AI assistant</h3>
-        <p class="mt-3 leading-relaxed text-muted">{{ wn.aiIntro }}</p>
-        <dl class="mt-7 grid grid-cols-3 gap-4 border-y border-line py-6">
-          @for (stat of wn.aiStats; track stat.label) {
-            <div class="flex flex-col-reverse">
-              <dt class="text-sm text-muted">{{ stat.label }}</dt>
-              <dd class="font-display text-3xl font-bold" [class.text-accent]="stat.highlight">{{ stat.value }}</dd>
-            </div>
-          }
-        </dl>
-        <p class="mt-6 text-sm text-muted">What it can do</p>
-        <ul class="mt-3 grid gap-2 sm:grid-cols-2">
-          @for (action of wn.aiActions; track action) {
-            <li class="rounded-lg border border-line bg-bg px-3 py-2 text-[15px]">{{ action }}</li>
-          }
-        </ul>
-        <p class="mt-6 leading-relaxed text-muted">{{ wn.aiHow }}</p>
+  <!-- Top: story + preview -->
+  <div class="relative grid gap-10 p-6 sm:p-10 lg:grid-cols-[1fr_1.05fr] lg:items-center">
+    <div>
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="inline-flex items-center gap-1.5 rounded-full border border-accent-2/40 bg-accent-2/10 px-3 py-1 text-xs font-semibold text-accent-2">
+          <app-icon name="sparkles" [size]="14" /> Personal learning project
+        </span>
+        <span class="inline-flex items-center gap-1.5 rounded-full border border-line px-3 py-1 text-xs font-medium text-muted">
+          <span class="h-1.5 w-1.5 rounded-full bg-emerald-500" aria-hidden="true"></span> Live
+        </span>
       </div>
+      <h3 id="wordnest-title" class="mt-5 font-display text-3xl font-extrabold tracking-tight sm:text-4xl">{{ wn.name }}</h3>
+      <p class="mt-2 font-display text-lg font-semibold text-muted text-pretty">{{ wn.tagline }}</p>
+      <p class="mt-4 leading-relaxed text-muted text-pretty">{{ wn.summary }}</p>
 
-      <!-- Architecture -->
-      <figure class="rounded-2xl border border-line bg-surface p-7 md:p-9"
-              aria-label="WordNest architecture: Angular app to Express API, which uses PostgreSQL and the intent model">
-        <figcaption class="flex justify-between gap-3 text-sm text-muted">
-          <span>How one request travels</span><span>3 services on Render</span>
-        </figcaption>
-        <div class="mt-6 rounded-xl border border-line bg-bg p-4">
-          <p class="font-semibold">Angular app</p>
-          <p class="text-sm text-muted">Signals, Tailwind CSS, chat panel</p>
-        </div>
-        <div class="pulse relative mx-auto h-10 w-0.5 bg-line" aria-hidden="true"></div>
-        <div class="rounded-xl border border-line bg-bg p-4">
-          <p class="font-semibold">Express 5 API</p>
-          <p class="text-sm text-muted">JWT login, roles, REST, Swagger docs</p>
-        </div>
-        <div class="mx-auto h-10 w-0.5 bg-line" aria-hidden="true"></div>
-        <div class="grid grid-cols-2 gap-3">
-          <div class="rounded-xl border border-line bg-bg p-4">
-            <p class="font-semibold">PostgreSQL</p>
-            <p class="text-sm text-muted">Raw SQL on Neon</p>
-          </div>
-          <div class="rounded-xl border-2 border-accent bg-bg p-4">
-            <p class="font-semibold text-accent">My intent model</p>
-            <p class="text-sm text-muted">FastAPI, scikit-learn</p>
-          </div>
-        </div>
-        <ul class="mt-8 space-y-3 text-[15px]">
-          @for (feature of wn.features; track feature) {
-            <li class="flex gap-3"><span class="text-accent">▸</span><span>{{ feature }}</span></li>
-          }
-        </ul>
-      </figure>
+      <ul class="mt-6 flex flex-wrap gap-2" aria-label="WordNest technology stack">
+        @for (t of wn.stack; track t.name) { <li><app-tech-badge [tech]="t" /></li> }
+      </ul>
+
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a [href]="wn.liveUrl" target="_blank" rel="noopener" class="btn btn-primary">
+          Live demo <app-icon name="arrow-up-right" [size]="18" /><span class="sr-only">(opens in new tab)</span>
+        </a>
+        <a [href]="wn.apiDocsUrl" target="_blank" rel="noopener" class="btn btn-ghost">
+          <app-icon name="file" [size]="18" /> API docs<span class="sr-only">(opens in new tab)</span>
+        </a>
+        @if (wn.repoPublic) {
+          <a [href]="wn.repoUrl" target="_blank" rel="noopener" class="btn btn-ghost">
+            <app-icon name="github" [size]="18" /> GitHub<span class="sr-only">(opens in new tab)</span>
+          </a>
+        }
+      </div>
+      <p class="mt-4 text-[13px] text-faint">{{ wn.hostingNote }}</p>
     </div>
+
+    <!-- Preview: real screenshot when provided, otherwise a clearly labelled illustration -->
+    <figure>
+      <div class="overflow-hidden rounded-2xl border border-line-strong bg-raised shadow-2xl">
+        <div class="flex items-center gap-2 border-b border-line bg-surface px-4 py-2.5">
+          <span class="h-2.5 w-2.5 rounded-full bg-[#FF5F57]"></span>
+          <span class="h-2.5 w-2.5 rounded-full bg-[#FEBC2E]"></span>
+          <span class="h-2.5 w-2.5 rounded-full bg-[#28C840]"></span>
+          <span class="ml-3 flex-1 truncate rounded-md bg-bg-soft px-3 py-1 text-center font-code text-[11.5px] text-muted">{{ liveHost }}</span>
+        </div>
+        @if (wn.screenshot) {
+          <img [src]="wn.screenshot" alt="Screenshot of the WordNest application" loading="lazy" decoding="async"
+               width="1440" height="900" class="block w-full" />
+        } @else {
+          <div class="grid gap-3 p-5 text-[13.5px] sm:p-6" aria-hidden="true">
+            <div class="flex items-center justify-between">
+              <p class="font-display text-[15px] font-bold">WordNest <span class="font-body text-xs font-normal text-muted">assistant</span></p>
+              <span class="chip">AI chat</span>
+            </div>
+            <div class="ml-auto max-w-[80%] rounded-2xl rounded-br-md bg-accent px-4 py-2.5 text-accent-ink">Why was my post rejected?</div>
+            <div class="flex items-center gap-2 font-code text-[11.5px] text-muted">
+              <span class="h-px flex-1 bg-line"></span>
+              <span class="rounded-md border border-line bg-surface px-2 py-0.5">intent model → <span class="text-accent-2">rejection reason</span></span>
+              <span class="h-px flex-1 bg-line"></span>
+            </div>
+            <div class="max-w-[85%] rounded-2xl rounded-bl-md border border-line bg-surface px-4 py-3">
+              <p class="font-semibold">An admin rejected it with this reason:</p>
+              <p class="mt-1 text-muted">“Please add a source for the figures in the second section.”</p>
+            </div>
+            <div class="flex flex-wrap gap-1.5 pt-1">
+              @for (a of wn.aiActions.slice(0, 4); track a) {
+                <span class="rounded-full border border-line bg-surface px-2.5 py-1 text-[11.5px] text-muted">{{ a }}</span>
+              }
+            </div>
+          </div>
+        }
+      </div>
+      @if (!wn.screenshot) {
+        <figcaption class="mt-3 text-center text-xs text-faint">Illustration of the assistant’s intent flow — try the real thing in the live demo.</figcaption>
+      }
+    </figure>
   </div>
-</section>
+
+  <!-- Bottom: AI, features, architecture -->
+  <div class="relative grid border-t border-line lg:grid-cols-3">
+    <section class="p-6 sm:p-8 lg:border-r lg:border-line" aria-labelledby="wn-ai">
+      <h4 id="wn-ai" class="flex items-center gap-2 font-display font-bold"><span class="text-accent-2"><app-icon name="sparkles" [size]="18" /></span>The AI assistant</h4>
+      <p class="mt-3 text-[15px] leading-relaxed text-muted">{{ wn.aiIntro }}</p>
+      <dl class="mt-5 grid grid-cols-3 gap-2">
+        @for (s of wn.aiStats; track s.label) {
+          <div class="flex flex-col-reverse rounded-xl border border-line bg-raised p-3">
+            <dt class="text-[12px] text-muted">{{ s.label }}</dt>
+            <dd class="font-display text-2xl font-extrabold">{{ s.value }}</dd>
+          </div>
+        }
+      </dl>
+      <p class="mt-5 text-[14px] leading-relaxed text-muted">{{ wn.aiHow }}</p>
+    </section>
+
+    <section class="border-t border-line p-6 sm:p-8 lg:border-t-0 lg:border-r" aria-labelledby="wn-features">
+      <h4 id="wn-features" class="flex items-center gap-2 font-display font-bold"><span class="text-accent"><app-icon name="check" [size]="18" /></span>Key features</h4>
+      <ul class="mt-4 space-y-4">
+        @for (f of wn.features; track f.title) {
+          <li>
+            <p class="font-semibold">{{ f.title }}</p>
+            <p class="mt-0.5 text-[14.5px] leading-relaxed text-muted">{{ f.text }}</p>
+          </li>
+        }
+        <li>
+          <p class="font-semibold">Assistant actions</p>
+          <p class="mt-0.5 text-[14.5px] leading-relaxed text-muted">{{ wn.aiActions.join(' · ') }}</p>
+        </li>
+      </ul>
+    </section>
+
+    <section class="border-t border-line p-6 sm:p-8 lg:border-t-0" aria-labelledby="wn-arch">
+      <h4 id="wn-arch" class="flex items-center gap-2 font-display font-bold"><span class="text-accent"><app-icon name="layers" [size]="18" /></span>How it’s built</h4>
+      <figure class="mt-4 text-[13px]" aria-label="Architecture: Angular app calls the Express API, which uses PostgreSQL, the FastAPI intent model and the Gemini API">
+        <div class="rounded-xl border border-line bg-raised px-3.5 py-2.5"><p class="font-semibold">Angular app</p><p class="text-muted">Signals · Tailwind · chat panel</p></div>
+        <div class="mx-auto h-4 w-px bg-line-strong" aria-hidden="true"></div>
+        <div class="rounded-xl border border-line bg-raised px-3.5 py-2.5"><p class="font-semibold">Express 5 API</p><p class="text-muted">JWT · roles · REST · Swagger</p></div>
+        <div class="mx-auto h-4 w-px bg-line-strong" aria-hidden="true"></div>
+        <div class="grid grid-cols-3 gap-2">
+          <div class="rounded-xl border border-line bg-raised p-2.5"><p class="font-semibold">PostgreSQL</p><p class="text-muted">Neon</p></div>
+          <div class="rounded-xl border border-accent-2/60 bg-accent-2/10 p-2.5"><p class="font-semibold text-accent-2">Intent model</p><p class="text-muted">FastAPI</p></div>
+          <div class="rounded-xl border border-line bg-raised p-2.5"><p class="font-semibold">Gemini</p><p class="text-muted">LLM</p></div>
+        </div>
+      </figure>
+      <p class="mt-6 text-sm font-semibold">What I built</p>
+      <ul class="mt-2 space-y-1.5">
+        @for (c of wn.contribution; track c) {
+          <li class="flex gap-2.5 text-[14px] leading-relaxed text-muted"><span class="mt-0.5 text-accent-2"><app-icon name="check" [size]="16" /></span>{{ c }}</li>
+        }
+      </ul>
+    </section>
+  </div>
+</article>
